@@ -1,4 +1,4 @@
-# Trabajo Práctico Numero 4 - Alejo Garcia Mata
+# TTSE 1 - Alejo Garcia Mata
 
 ## Uso del repositorio
 
