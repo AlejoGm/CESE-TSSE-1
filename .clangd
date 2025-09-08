@@ -1,0 +1,22 @@
+CompileFlags:
+  Remove: [-f*, -m*]
+  Add: [-Wall, -Wextra, -I./inc]
+InlayHints:
+  ParameterNames: true
+  DeducedTypes: true
+  Designators: true
+  # TypeNameLimit: 0
+  # BlockEnd: true
+Diagnostics:
+  ClangTidy:
+    Add: [readability-identifier-naming, bugprone-*, performance-*,modernize-use-override,modernize-loop-convert,modernize-deprecated-headers,modernize-use-bool-literals]
+    Remove: [cppcoreguidelines-pro-type-vararg, hicpp-vararg,bugprone-easily-swappable-parameters,modernize-use-trailing-return-type]
+    CheckOptions:
+      AllowStringArrays: true
+Completion:
+  AllScopes: true
+  # ArgumentLists: FullPlaceholders
+Index:
+  Background: Build
+Hover:
+  ShowAKA: true
