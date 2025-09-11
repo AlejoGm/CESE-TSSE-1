@@ -29,6 +29,7 @@ SPDX-License-Identifier: MIT
  * =============================================================== */
 
 #include "gpio.h"
+#include "hal_gpio.h"
 #include <stddef.h>
 #include <string.h>
 
@@ -88,13 +89,13 @@ struct gpio_s {
  * @return gpio_t Puntero a la instancia de GPIO asignada o NULL si no hay
  * instancias disponibles.
  */
-static gpio_t allocateInstance() {
+static gpio_t allocateInstance(void) {
   static struct gpio_s instances[GPIO_MAX_INSTANCES] = {0};
 
   gpio_t result = NULL;
   for (int index = 0; index < GPIO_MAX_INSTANCES; index++) {
     if (!instances[index].used) {
-      result = &instances[index].used;
+      result = &instances[index];
       result->used = true;
       break;
     }
@@ -128,13 +129,11 @@ void gpioSetOutput(gpio_t self, bool output) {
 
 void gpioSetState(gpio_t self, bool state) {
   if (self->output) {
-    hal_gpio_set_output(self->port, self->bit, output);
+    hal_gpio_set_output(self->port, self->bit, state);
   }
 }
 
-bool gpioGetState(gpio_t self) {
-  return hal_gpio_get_input(self->port, self->bit);
-}
+bool gpioGetState(gpio_t self) { return hal_gpio_get_input(self->port, self->bit); }
 
 /* === End of documentation
  * ==================================================================== */

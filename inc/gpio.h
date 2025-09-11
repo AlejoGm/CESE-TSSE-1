@@ -6,12 +6,6 @@
  ** @brief Definición de la función principal del programa
  **/
 
-/* === Headers files inclusions
- * ================================================================ */
-
-#include <stdbool.h>
-#include <stdint.h>
-
 /* === Cabecera C++
  * ============================================================================
  */
@@ -19,6 +13,12 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+/* === Headers files inclusions
+ * ================================================================ */
+
+#include <stdbool.h>
+#include <stdint.h>
 
 /* === Public macros definitions
  * =============================================================== */
