@@ -1,5 +1,5 @@
 /************************************************************************************************
-Copyright (c) 2025, Alejo Garcia Mata <alejogarciamata@gmail.com>
+Copyright (c) 2023, Alejo Garcia Mata <alejogarciamata@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -21,28 +21,18 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 SPDX-License-Identifier: MIT
 *************************************************************************************************/
 
-/** @file leds.c
- ** @brief Implementación del driver de LEDs
+/** @file errores.c
+ ** @brief Implementación del sistema de registro de errores
  **/
 
 /* === Headers files inclusions
  * =============================================================== */
 
-#include "leds.h"
 #include "errores.h"
-
-#include <stdbool.h>
-#include <stdint.h>
+#include <stdio.h>
 
 /* === Macros definitions
  * ====================================================================== */
-
-#define ALL_LED_OFF 0x0000
-#define ALL_LED_ON 0xFFFF
-#define LED_TO_BIT_OFFSET 1
-#define FIRST_BIT 1
-#define LED_MIN 1
-#define LED_MAX 16
 
 /* === Private data type declarations
  * ========================================================== */
@@ -50,15 +40,8 @@ SPDX-License-Identifier: MIT
 /* === Private variable declarations
  * =========================================================== */
 
-static uint16_t *puerto;
-
 /* === Private function declarations
  * =========================================================== */
-
-static uint16_t s_LedToMask(int led);
-static bool IsLedValid(int led);
-static void s_validateAndON(int led, uint16_t *ptr);
-static void s_validateAndOFF(int led, uint16_t *ptr);
 
 /* === Public variable definitions
  * ============================================================= */
@@ -69,53 +52,14 @@ static void s_validateAndOFF(int led, uint16_t *ptr);
 /* === Private function implementation
  * ========================================================= */
 
-static uint16_t s_LedToMask(int led) { return FIRST_BIT << (led - LED_TO_BIT_OFFSET); }
-
-static bool IsLedValid(int led) {
-  if (led < LED_MIN || led > LED_MAX) {
-    Alerta("Intento de manipular un LED fuera de rango");
-    return false;
-  }
-  return true;
-}
-
-static void s_validateAndON(int led, uint16_t *ptr) {
-  if (!ptr || !IsLedValid(led)) {
-    return;
-  }
-  *ptr |= s_LedToMask(led);
-}
-
-static void s_validateAndOFF(int led, uint16_t *ptr) {
-  if (!ptr || !IsLedValid(led)) {
-    return;
-  }
-  *ptr &= ~s_LedToMask(led);
-}
-
 /* === Public function implementation
  * ========================================================== */
 
-void LedsInitDriver(uint16_t *puerto_virtual) {
-  puerto = puerto_virtual;
-  LedsTurnOffAll();
+void RegistrarMensaje(gravedad_t gravedad, const char *funcion, int linea, const char *mensaje) {
+  const char *nivel_gravedad[] = {"ERROR", "ALERTA", "INFORMACION", "DEPURACION"};
+
+  printf("[%s] %s:%d - %s\n", nivel_gravedad[gravedad], funcion, linea, mensaje);
 }
-
-void LedsTurnOn(int led) { s_validateAndON(led, puerto); }
-
-void LedsTurnOff(int led) { s_validateAndOFF(led, puerto); }
-
-bool LedsGetState(int led) { return (*puerto & s_LedToMask(led)) > 0; }
-
-void LedsToMaskON(int led, uint16_t *mask) { s_validateAndON(led, mask); }
-
-void LedsToMaskOFF(int led, uint16_t *mask) { s_validateAndOFF(led, mask); }
-
-void LedsSet(uint16_t mask) { *puerto = mask; }
-
-void LedsTurnOnAll(void) { *puerto = ALL_LED_ON; }
-
-void LedsTurnOffAll(void) { *puerto = ALL_LED_OFF; }
 
 /* === End of documentation
  * ==================================================================== */

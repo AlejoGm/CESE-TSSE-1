@@ -5,8 +5,8 @@
 void LedsInitDriver(uint16_t *puerto_virtual);
 void LedsTurnOn(int led);
 void LedsTurnOff(int led);
-void LedsTurnOnAll();
-void LedsTurnOffAll();
+void LedsTurnOnAll(void);
+void LedsTurnOffAll(void);
 void LedsToMaskON(int led, uint16_t *mask);
 void LedsToMaskOFF(int led, uint16_t *mask);
 void LedsSet(uint16_t mask);
