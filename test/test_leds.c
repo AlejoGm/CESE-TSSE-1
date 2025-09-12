@@ -109,3 +109,26 @@ void test_tratar_de_manipular_un_led_fuera_de_rango_y_comprobar_que_se_genere_un
   LedsTurnOn(17);
   TEST_ASSERT_EQUAL_HEX16(0x0000, puerto_virtual);
 }
+
+// Prueba para tener cobertura total
+
+void test_mascara_null_sin_errores() {
+  uint16_t *mask = NULL;
+  LedsToMaskON(1, mask);
+  TEST_PASS();
+  LedsToMaskOFF(1, mask);
+  TEST_PASS();
+}
+
+void test_manipular_leds_fuera_de_rango_y_no_se_manipulen_leds() {
+
+  LedsTurnOn(1);
+
+  RegistrarMensaje_Ignore();
+  LedsTurnOn(18);
+  TEST_ASSERT_EQUAL_HEX16(0x1, puerto_virtual);
+
+  RegistrarMensaje_Ignore();
+  LedsTurnOff(19);
+  TEST_ASSERT_EQUAL_HEX16(0x1, puerto_virtual);
+}
