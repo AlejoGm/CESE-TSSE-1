@@ -1,4 +1,4 @@
-# TTSE TP2: TDD - Alejo Garcia Mata
+# TTSE TP1: TDD - Alejo Garcia Mata
 
 ## Enunciado
 
@@ -42,3 +42,4 @@ make all
 ## License
 
 This work is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
+
